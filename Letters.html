@@ -2,8 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Valentine's Day - Love Letters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Your Love Letter</title>
     <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      /* Add your styles here */
+    </style>
   </head>
   <body>
     <div id="navbar">
@@ -22,15 +27,13 @@
 
     <div class="container">
       <h1>Create Your Love Letter</h1>
+      <p>Type your love letter below and click "Copy to Ask Your Valentine".</p>
       <form id="letterForm">
         <div class="form-group">
           <label for="letter">Your Love Letter:</label>
-          <textarea id="letter" required></textarea>
+          <textarea id="letter" placeholder="Type your love letter here..." required></textarea>
         </div>
-        <button type="submit">Submit Letter</button>
-        <button type="button" id="copyButton">
-          Copy to Ask Your Valentine
-        </button>
+        <button type="submit" class="button">Copy to Ask Your Valentine</button>
       </form>
       <div id="letterResponse" class="hidden">
         <h2>Your Love Letter</h2>
