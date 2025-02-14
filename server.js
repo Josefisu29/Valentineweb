@@ -11,12 +11,15 @@ const bodyParser = require("body-parser");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const fs = require("fs"); // Added to handle file operations
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const SECRET_KEY = "your_secret_key"; // Change this to a secure key
 const JWT_SECRET = process.env.JWT_SECRET || "YOUR_SECRET_KEY"; // Use environment variable for secret
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/authdb"; // Use environment variable for MongoDB URI
+
+const messagesFile = path.join(__dirname, "messages.json"); // Path for messages file
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -166,7 +169,13 @@ app.use(express.static("public"));
 const details = JSON.parse(localStorage.getItem("valentineDetails"));
 if (details) {
   // Construct a shareable link that points to share.html
-  const shareableLink = `https://your-domain.com/share.html?name=${encodeURIComponent(details.name)}&senderPhone=${encodeURIComponent(details.phone)}&receiverPhone=${encodeURIComponent(details.receiverPhone)}&message=${encodeURIComponent(details.message)}`;
+  const shareableLink = `https://your-domain.com/share.html?name=${encodeURIComponent(
+    details.name
+  )}&senderPhone=${encodeURIComponent(
+    details.phone
+  )}&receiverPhone=${encodeURIComponent(
+    details.receiverPhone
+  )}&message=${encodeURIComponent(details.message)}`;
   // For example, set this URL as the href of an anchor element:
   $("#shareLink").attr("href", shareableLink);
 }
@@ -233,7 +242,53 @@ app.post("/create-checkout-session", async (req, res) => {
     res.json({ id: session.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
-  }a
+  }
+});
+
+// Helper function to read messages from the JSON file.
+function readMessages(callback) {
+  fs.readFile(messagesFile, "utf8", (err, data) => {
+    if (err) {
+      // If file doesn't exist, return empty array.
+      if (err.code === "ENOENT") return callback(null, []);
+      return callback(err);
+    }
+    try {
+      const messages = JSON.parse(data);
+      callback(null, messages);
+    } catch (e) {
+      callback(e);
+    }
+  });
+}
+
+// Helper function to write messages to the JSON file.
+function writeMessages(messages, callback) {
+  fs.writeFile(messagesFile, JSON.stringify(messages, null, 2), callback);
+}
+
+// API endpoint to get all messages
+app.get("/api/messages", (req, res) => {
+  readMessages((err, messages) => {
+    if (err) return res.status(500).json({ error: "Error reading messages." });
+    res.json(messages);
+  });
+});
+
+// API endpoint to post a new message
+app.post("/api/messages", (req, res) => {
+  const newMessage = req.body;
+  newMessage.id = Date.now().toString();
+  newMessage.timestamp = new Date().toISOString();
+
+  readMessages((err, messages) => {
+    if (err) return res.status(500).json({ error: "Error reading messages." });
+    messages.push(newMessage);
+    writeMessages(messages, (err) => {
+      if (err) return res.status(500).json({ error: "Error saving message." });
+      res.json(newMessage);
+    });
+  });
 });
 
 // Start the server

@@ -135,9 +135,51 @@
       <!-- <a href="login.html">Login</a> -->
     </nav>
     <div class="container">
-      <h1>Your Love Letter</h1>
-      <blockquote id="letterContent">Loading your letter...</blockquote>
-      <a href="share.html" class="button">View Details</a>
+      <h1>Ask Your Valentine</h1>
+      <form id="askForm">
+        <!-- Option for Anonymous Mode -->
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="anonymousCheckbox" />
+            Send as Anonymous
+          </label>
+        </div>
+        <!-- Sender's Name -->
+        <div class="form-group">
+          <label for="name">Your Name:</label>
+          <input type="text" id="name" placeholder="Enter your name" required />
+        </div>
+        <!-- Sender's Phone (only used if not anonymous) -->
+        <div class="form-group">
+          <label for="phone">Your Phone Number:</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your phone number"
+            required
+          />
+        </div>
+        <!-- Receiver's Phone -->
+        <div class="form-group">
+          <label for="receiverPhone">Receiver's Phone Number:</label>
+          <input
+            type="tel"
+            id="receiverPhone"
+            placeholder="Enter receiver's phone number"
+            required
+          />
+        </div>
+        <!-- Love Letter Textarea -->
+        <div class="form-group">
+          <label for="letter">Type your love letter:</label>
+          <textarea
+            id="letter"
+            placeholder="Your love letter here..."
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="button">Submit Letter</button>
+      </form>
     </div>
 
     <!-- Firebase SDKs -->
@@ -155,27 +197,50 @@
       //   appId: "APP_ID",
       // };
       // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const db = firebase.firestore();
+      // firebase.initializeApp(firebaseConfig);
+      // const auth = firebase.auth();
+      // const db = firebase.firestore();
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      // Example: Fetch a letter from letters.json and display it.
-      $(document).ready(function () {
-        $.getJSON("letters.json", function (data) {
-          // For example, pick the first letter.
-          const letter = data[0];
-          $("#letterContent").html(
-            `${letter.name} says:<br><br>${letter.message.replace(
-              /\n/g,
-              "<br>"
-            )}`
-          );
-          // Optionally, store details in localStorage for the share page.
-          localStorage.setItem("valentineDetails", JSON.stringify(letter));
-        }).fail(function () {
-          $("#letterContent").text("Unable to load the letter.");
+      // Auto-fill "Anonymous" if the checkbox is checked.
+      $("#anonymousCheckbox").change(function () {
+        if ($(this).is(":checked")) {
+          $("#name").val("Anonymous").prop("disabled", true);
+        } else {
+          $("#name").val("").prop("disabled", false);
+        }
+      });
+
+      // Handle form submission: send the letter to the backend via AJAX.
+      $("#askForm").on("submit", function (e) {
+        e.preventDefault();
+        const name = $("#name").val().trim() || "Anonymous";
+        const phone = $("#phone").val().trim();
+        const receiverPhone = $("#receiverPhone").val().trim();
+        const letter = $("#letter").val().trim();
+        if (letter === "") {
+          alert("Please type your love letter.");
+          return;
+        }
+        // Build a message object.
+        const messageData = { name, phone, receiverPhone, message: letter };
+        // Send the data to the backend API.
+        $.ajax({
+          url: "/api/messages",
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(messageData),
+          success: function (data) {
+            // Optionally, store the details in localStorage for the share page.
+            localStorage.setItem("loveLetterData", JSON.stringify(data));
+            // Redirect to share.html so the receiver can see it.
+            window.location.href = "share.html";
+          },
+          error: function (err) {
+            alert("Error sending your love letter. Please try again.");
+            console.error(err);
+          },
         });
       });
     </script>
