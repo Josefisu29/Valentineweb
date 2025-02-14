@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine's Day - Pick Up Lines</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global Styles and Animated Gradient Background */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family: "Open Sans", sans-serif;
+        background: linear-gradient(135deg, #ffdee9, #b5fffc);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Headers using Dancing Script */
+      h1,
+      h2,
+      h3,
+      .special-text {
+        font-family: "Dancing Script", cursive;
+      }
+
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Navigation Bar */
+      nav {
+        background: #ff4e50;
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+      }
+      nav a {
+        color: #fff;
+        margin: 0 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: #ffd700;
+      }
+
+      /* Countdown Timer */
+      #countdown {
+        text-align: center;
+        font-size: 1.2em;
+        margin: 20px 0;
+      }
+
+      /* Carousel Container for Pick Up Lines */
+      .carousel-container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Row Layout for Pick Up Lines using Flexbox */
+      #quote-display {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      /* Individual Pick Up Line Card */
+      .line {
+        flex: 1 1 calc(25% - 10px);
+        text-align: center;
+        padding: 20px;
+        font-size: 1.8em;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        margin: 5px;
+      }
+      .line:hover {
+        transform: scale(1.05);
+      }
+
+      /* Fade Transition Class */
+      .fade {
+        transition: opacity 1s ease;
+      }
+
+      /* Responsive Media Queries */
+      @media (max-width: 768px) {
+        .line {
+          flex: 1 1 calc(50% - 10px);
+          font-size: 1.5em;
+        }
+        #quote-display {
+          gap: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .line {
+          flex: 1 1 100%;
+          font-size: 1.2em;
+        }
+        nav a {
+          display: block;
+          margin: 5px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <a href="index.html" id="nav-home">Home</a>
+      <a href="AskVal.html" id="nav-askval">Ask Your Valentine</a>
+      <a href="Letters.html" id="nav-letters">Love Letters</a>
+      <!-- <a href="login.html" id="nav-login">Login</a> -->
+      <!-- Inactive Links: Poetry, Pick Up Lines, and Quotes -->
+      <a href="Poetry.html" id="nav-poetry" class="inactive">Poetry</a>
+      <a href="Pickup.html" id="nav-pickup" class="inactive">Pick Up Lines</a>
+      <a href="Quotes.html" id="nav-quotes" class="inactive">Quotes</a>
+    </nav>
+
+    <!-- Countdown Timer -->
+    <div id="countdown"></div>
+
+    <!-- Carousel Container for Pick Up Lines -->
+    <div class="carousel-container">
+      <div id="quote-display" class="fade">
+        <!-- Four pick-up line cards will be inserted here -->
+      </div>
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      // Countdown Timer: Counts down to Valentine's Day (Feb 14)
+      function startCountdown() {
+        const countdownEl = document.getElementById("countdown");
+        const currentYear = new Date().getFullYear();
+        const targetDate = new Date(
+          "February 14, " +
+            (new Date() > new Date("February 14, " + currentYear)
+              ? currentYear + 1
+              : currentYear) +
+            " 00:00:00"
+        ).getTime();
+        function updateCountdown() {
+          const now = new Date().getTime();
+          const diff = targetDate - now;
+          if (diff < 0) {
+            countdownEl.textContent = "Happy Valentine's Day!";
+            clearInterval(interval);
+            return;
+          }
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+          countdownEl.textContent =
+            "Time until Valentine's Day: " +
+            days +
+            "d " +
+            hours +
+            "h " +
+            minutes +
+            "m " +
+            seconds +
+            "s";
+        }
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+      }
+      startCountdown();
+
+      // Array of pick-up lines
+      const pickupLines = [
+        "Are you a magician? Because whenever I look at you, everyone else disappears.",
+        "Is your name Google? Because you have everything I've been searching for.",
+        "Do you have a map? I keep getting lost in your eyes.",
+        "If you were a vegetable, you'd be a cute-cumber.",
+        "Are you French? Because Eiffel for you.",
+        "Do you have a Band-Aid? I just scraped my knee falling for you.",
+        "I must be a snowflake, because I've fallen for you.",
+        "Are you a parking ticket? Because you've got 'fine' written all over you.",
+        "Is your dad a boxer? Because you're a knockout!",
+        "If beauty were time, you'd be an eternity.",
+        "Are you a camera? Because every time I look at you, I smile.",
+        "I must be a beaver, because I'm dying for your wood.",
+        "Is your name Wi-Fi? Because I'm feeling a connection.",
+        "Are you a loan? Because you have my interest.",
+        "Are you a campfire? Because you're hot and I want s'more.",
+        "Do you have a pencil? Cause I want to erase your past and write our future.",
+        "Excuse me, but I think you dropped something: MY JAW!",
+        "If you were words on a page, you'd be fine print.",
+        "I was blinded by your beauty… I'm going to need your name and number for insurance purposes.",
+        "Are you a dictionary? Because you add meaning to my life.",
+        "Do you have a sunburn, or are you always this hot?",
+        "If you were a fruit, you'd be a fineapple.",
+        "If you were a burger at McDonald's, you'd be the McGorgeous.",
+        "Are you a time traveler? Because I see you in my future.",
+        "Do you believe in love at first sight—or should I walk by again?",
+        "If I could rearrange the alphabet, I'd put U and I together.",
+        "Is your dad a baker? Because you're a cutie pie!",
+        "Can I follow you home? Cause my parents always told me to follow my dreams.",
+        "Do you have a name, or can I call you mine?",
+        "I must be in a museum, because you truly are a work of art.",
+        "Your hand looks heavy—can I hold it for you?",
+        "Are you a keyboard? Because you're just my type.",
+        "If you were a triangle, you'd be acute one.",
+        "Do you have a mirror in your pocket? Because I can see myself in your pants.",
+        "I'm not a photographer, but I can picture us together.",
+        "Are you a beaver? Because daaaaam.",
+        "I'd say God bless you, but it looks like he already did.",
+        "Is there an airport nearby, or is that just my heart taking off?",
+        "Do you have a compass? Because I'm lost in your eyes.",
+        "Your smile must be a black hole, nothing can escape its pull.",
+        "If beauty were a crime, you'd be guilty as charged.",
+        "Do you have a library card? Because I'm checking you out.",
+        "I'm no mathematician, but I'm pretty good with numbers. Tell you what, give me yours and watch what I can do with it.",
+        "Is your name Chapstick? Because you're da balm.",
+        "Can I tie your shoes? I don't want you falling for anyone else.",
+        "Are you an interior decorator? When I saw you, the entire room became beautiful.",
+        "Do you know what my shirt is made of? Boyfriend material.",
+        "Was your father an alien? Because there's nothing else like you on Earth!",
+        "I must be a snowflake, because I've fallen for you.",
+        "Are you the moon? Because even when it's dark, you still seem to shine.",
+        "If I were a cat, I'd spend all 9 lives with you.",
+        "Your eyes are like the ocean; I could swim in them all day.",
+        "Is your name Starbucks? Because I like you a latte.",
+        "Are you made of copper and tellurium? Because you're Cu-Te.",
+        "Do you have a map? I just got lost in your eyes.",
+        "Are you a volcano? Because I lava you.",
+        "Are you a Wi-Fi signal? Because I'm really feeling a connection.",
+        "Can I call you Google? Because you have everything I've been searching for.",
+        "I must be a gardener, because I'm digging you.",
+        "Your beauty is so bright, I had to wear sunglasses.",
+      ];
+
+      /* Function to get a random color for text */
+      function getRandomColor() {
+        const colors = [
+          "#FFB6C1",
+          "#FFC0CB",
+          "#DC143C",
+          "#FF69B4",
+          "#FF1493",
+          "#C71585",
+          "#DB7093",
+          "#8B008B",
+          "#800080",
+          "#4B0082",
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      /* Function to create a row with 4 random pick-up lines */
+      function displayPickupLineRow() {
+        const $row = $("<div>").css({
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          width: "100%",
+        });
+        let usedIndices = [];
+        for (let i = 0; i < 4; i++) {
+          let randomIndex;
+          do {
+            randomIndex = Math.floor(Math.random() * pickupLines.length);
+          } while (usedIndices.includes(randomIndex));
+          usedIndices.push(randomIndex);
+
+          const line = pickupLines[randomIndex];
+          const $lineDiv = $("<div>")
+            .addClass("line")
+            .css({
+              color: getRandomColor(),
+            })
+            .text(line);
+
+          $row.append($lineDiv);
+        }
+        return $row;
+      }
+
+      // Function to update the row with smooth fade transitions
+      function updatePickupRow() {
+        $("#quote-display").fadeOut(1000, function () {
+          $(this).empty();
+          const $newRow = displayPickupLineRow();
+          $(this).append($newRow).fadeIn(1000);
+        });
+      }
+
+      $(document).ready(function () {
+        // Initially display a row of pick-up lines
+        updatePickupRow();
+        // Update every 5 seconds
+        setInterval(updatePickupRow, 5000);
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,350 @@
+/* styles.css */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fff5f7; /* Soft blush white */
+  margin: 0;
+  padding: 0;
+  color: #333333; /* Dark text for readability */
+}
+/* Cupid Animation Styles */
+
+#cupid-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  pointer-events: none; /* So the animation doesn't interfere with clicks */
+}
+
+#cupid {
+  animation: cupidFly 8s ease-in-out infinite;
+}
+
+@keyframes cupidFly {
+  0% {
+    transform: translate(0, 0) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-200px, -200px) scale(1) rotate(360deg);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(0.5) rotate(720deg);
+    opacity: 0;
+  }
+}
+/* Cupid Drift Animation Styles */
+.cupid-container.cupid-drift {
+  position: fixed;
+  top: 50px;
+  left: -80px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.cupid-container.cupid-drift .cupid {
+  animation: cupidDrift 12s linear infinite;
+}
+
+@keyframes cupidDrift {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(
+      1200px,
+      40px
+    ); /* Adjust vertical offset (40px) as desired */
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(1400px, 0);
+    opacity: 0;
+  }
+}
+/* Cupid Bounce Animation Styles */
+.cupid-container.cupid-bounce {
+  position: fixed;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.cupid-container.cupid-bounce .cupid {
+  animation: cupidBounce 6s ease-in-out infinite;
+}
+
+@keyframes cupidBounce {
+  0% {
+    transform: translateX(-50%) translateY(-200px) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(-50%) translateY(-30px) scale(0.9);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(-50%) translateY(-10px) scale(0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 0;
+  }
+}
+/* b  */
+
+.carousel-container {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("love-background.jpg") center/cover no-repeat;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.quote-display {
+  position: relative;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#quote-text {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+#quote-author {
+  font-size: 1.2em;
+  font-style: italic;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+nav {
+  background: linear-gradient(90deg, #ff4e50, #fc913a);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav {
+  width: 100%;
+  background-color: rgba(255,255,255,0.8);
+  padding: 10px 0;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+nav a {
+  margin: 0 15px;
+  color: #d60000;
+  text-decoration: none;
+  font-size: 1.2rem; /* or 1.1rem in share.html */
+  font-weight: bold;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+nav a:hover {
+  color: #ffd700; /* A warm golden hover effect */
+}
+
+.container {
+  padding: 20px;
+}
+
+#countdown {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input,
+textarea {
+  padding: 8px;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #fc913a; /* Consistent with the navbar gradient */
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #ff6b81; /* Switch to primary accent on hover */
+}
+
+.hidden {
+  display: none;
+}
+
+.poem {
+  margin-bottom: 20px;
+}
+
+blockquote {
+  border-left: 4px solid #ccc;
+  margin: 10px 0;
+  padding-left: 10px;
+  font-style: italic;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  body {
+    font-size: 14px; /* Smaller font size for mobile */
+  }
+  .navbar {
+    display: flex;
+    flex-direction: column; /* Stack nav items vertically */
+  }
+  .navbar-item {
+    padding: 10px; /* Increase padding for touch targets */
+  }
+}
+
+@media (min-width: 769px) {
+  /* Adjust styles for larger screens */
+  body {
+    font-size: 16px; /* Default font size for desktop */
+  }
+  .navbar {
+    display: flex;
+    flex-direction: row; /* Align nav items horizontally */
+  }
+  .navbar-item {
+    padding: 15px; /* Standard padding for desktop */
+  }
+}
+
+/* General Responsive Styles */
+* {
+  box-sizing: border-box; /* Ensure padding and borders are included in element's total width and height */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; /* Changed font-family */
+}
+
+/* Responsive Container */
+.container {
+  max-width: 90%; /* Use percentage for width to allow flexibility */
+  margin: 20px auto; /* Center the container */
+  padding: 20px; /* Existing padding */
+}
+
+/* Responsive Form Elements */
+input[type="text"],
+input[type="tel"],
+textarea,
+button {
+  width: 100%; /* Full width for inputs and buttons */
+  padding: 10px; /* Existing padding */
+  margin: 5px 0; /* Add some margin for spacing */
+}
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column; /* Stack navigation links vertically */
+  }
+  nav a {
+    margin: 10px 0; /* Add margin for vertical spacing */
+  }
+  .container {
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+  button {
+    padding: 15px; /* Increase button padding for easier tapping */
+  }
+}
+
+/* Responsive Typography */
+h1,
+h2,
+h3 {
+  font-size: 2.5vw; /* Use viewport width for responsive font size */
+}
+
+p,
+blockquote {
+  font-size: 1.5vw; /* Use viewport width for responsive font size */
+}
+
+/* Responsive SVG */
+#cupid svg {
+  width: 20vw; /* Responsive width for SVG */
+  height: auto; /* Maintain aspect ratio */
+}

@@ -1,0 +1,224 @@
+<!-- Add nav of quotes and pick up to all pages  -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Quotes Carousel</title>
+    <style>
+      /* Global Styles and Background */
+      body {
+        font-family: "Cursive", serif; /* Cursive font */
+        background-color: #fdf0f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Navigation Bar */
+      nav {
+        width: 100%;
+        background-color: #e91e63;
+        padding: 10px 0;
+        text-align: center;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        z-index: 1000;
+      }
+
+      nav a {
+        margin: 0 15px;
+        color: #d60000;
+        text-decoration: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      /* nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.2em;
+      } */
+
+      /* Carousel Container */
+      .carousel-container {
+        width: 90%; /* Use percentage for responsiveness */
+        max-width: 800px;
+        margin: 50px auto;
+        overflow: hidden;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      /* Carousel Flex Layout */
+      .carousel {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping for smaller screens */
+        gap: 15px;
+      }
+
+      /* Quote Card Styles */
+      .quote {
+        flex: 1 1 calc(25% - 15px); /* Responsive width with gap consideration */
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 1.3em;
+        border-radius: 5px;
+        opacity: 1;
+        transition: transform 0.3s; /* Smooth scaling effect */
+      }
+
+      .quote:hover {
+        transform: scale(1.05); /* Scale effect on hover */
+      }
+
+      /* Media Queries for Responsiveness */
+      @media (max-width: 1200px) {
+        .quote {
+          flex: 1 1 calc(33.33% - 15px); /* 3 quotes per row */
+        }
+      }
+
+      @media (max-width: 800px) {
+        .quote {
+          flex: 1 1 calc(50% - 15px); /* 2 quotes per row */
+        }
+      }
+
+      @media (max-width: 500px) {
+        .quote {
+          flex: 1 1 100%; /* 1 quote per row */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="Poetry.html">Poetry</a>
+      <a href="Pickup.html">Pickup</a>
+      <a href="AskVal.html">Ask Your Valentine</a>
+      <a href="Quotes.html">Quotes</a>
+      <a href="Letters.html">Love Letters</a>
+      <!-- <a href="login.html">Login</a> -->
+    </nav>
+
+    <div class="carousel-container">
+      <div class="carousel">
+        <!-- Four quote cards will be dynamically inserted here -->
+      </div>
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      // Array of love quotes
+      const quotes = [
+        "Love is composed of a single soul inhabiting two bodies. – Aristotle",
+        "I love you not only for what you are, but for what I am when I am with you. – Roy Croft",
+        "The best thing to hold onto in life is each other. – Audrey Hepburn",
+        "Being deeply loved by someone gives you strength, while loving someone deeply gives you courage. – Lao Tzu",
+        "I saw that you were perfect, and so I loved you. Then I saw that you were not perfect, and I loved you even more. – Angelita Lim",
+        "Love is that condition in which the happiness of another person is essential to your own. – Robert A. Heinlein",
+        "The best love is the kind that awakens the soul and makes us reach for more, that plants a fire in our hearts and brings peace to our minds. – Nicholas Sparks",
+        "To love and be loved is to feel the sun from both sides. – David Viscott",
+        "Love is a friendship set to music. – Joseph Campbell",
+        "We are most alive when we're in love. – John Updike",
+        "The greatest thing you'll ever learn is just to love and be loved in return. – Eden Ahbez",
+        "At the touch of love everyone becomes a poet. – Plato",
+        "Love is a canvas furnished by nature and embroidered by imagination. – Voltaire",
+        "Love is the only reality, and it is not a mere sentiment. It is the ultimate truth that lies at the heart of creation. – Rabindranath Tagore",
+        "Love is the flower you've got to let grow. – John Lennon",
+        "Love is the magician that pulls man out of his own hat. – Ben Hecht",
+        "Love is the greatest refreshment in life. – Pablo Picasso",
+        "Love is the only force capable of transforming an enemy into a friend. – Martin Luther King Jr.",
+        "Love is not only something you feel, it is something you do. – David Wilkerson",
+        "Love is the bridge between you and everything. – Rumi",
+        "Love is the whole thing. We are only pieces. – Rumi",
+        "Love is the voice under all silences, the hope which has no opposite in fear. – E.E. Cummings",
+        "Love is the beauty of the soul. – Saint Augustine",
+        "Love is the only reality, and it is not a mere sentiment. It is the ultimate truth that lies at the heart of creation. – Rabindranath Tagore",
+        "Love is the flower you've got to let grow. – John Lennon",
+        "Love is the magician that pulls man out of his own hat. – Ben Hecht",
+        "Love is the greatest refreshment in life. – Pablo Picasso",
+        "They said it's been horror with many for long but like a rainbow with many colours, you alone fill me with many colors. – Goodness Felix-Adebayo",
+        "My heart has been in pleasant comforts lately, this is because my heart has been with you. – Goodness Felix-Adebayo",
+        "In love lies an umbrella for all emotions; care, sweet, happiness and even jealous. That's who I am because I'm in love with you. – Goodness Felix-Adebayo",
+        "The definition of love is you and I. You are the symbol of any true love. I am the luckiest, the searched, the one. – Goodness Felix-Adebayo",
+        "When the clock goes round for the fourth time, I know you think of me. I hope you say I LOVE YOU. – Goodness Felix-Adebayo",
+      ];
+
+      // Array of color palette objects for background and text colors
+      const colorPalettes = [
+        { background: "#fdf0f5", text: "#e91e63" },
+        { background: "#fff0f6", text: "#d60000" },
+        { background: "#f0f8ff", text: "#007acc" },
+        { background: "#f5f5f5", text: "#333" },
+        { background: "#fffaf0", text: "#ff4500" },
+        { background: "#f0fff0", text: "#228b22" },
+        { background: "#f0ffff", text: "#4682b4" },
+        { background: "#fff0f5", text: "#c71585" },
+      ];
+
+      const $carousel = $(".carousel");
+
+      // Function to add four random quotes to the carousel (without transition)
+      function addNewQuotes() {
+        let usedIndices = [];
+        for (let i = 0; i < 4; i++) {
+          let randomIndex;
+          do {
+            randomIndex = Math.floor(Math.random() * quotes.length);
+          } while (usedIndices.includes(randomIndex));
+          usedIndices.push(randomIndex);
+          const quoteText = quotes[randomIndex];
+
+          const randomColorIndex = Math.floor(
+            Math.random() * colorPalettes.length
+          );
+          const { background, text } = colorPalettes[randomColorIndex];
+
+          const $quoteElement = $("<div>")
+            .addClass("quote")
+            .text(quoteText)
+            .css({
+              backgroundColor: background,
+              color: text,
+            });
+          $carousel.append($quoteElement);
+        }
+      }
+
+      // Function to update the carousel with a smooth fade-out and fade-in transition
+      function displayRandomQuotes() {
+        $carousel.fadeOut(1000, function () {
+          $carousel.empty();
+          addNewQuotes();
+          $carousel.fadeIn(1000);
+        });
+      }
+
+      // Initial display of 4 quotes
+      addNewQuotes();
+
+      // Update quotes every 5 seconds with smooth transitions
+      setInterval(displayRandomQuotes, 10000);
+    </script>
+  </body>
+  <script src="script.js"></script>
+</html>

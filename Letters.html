@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Valentine's Day - Love Letters</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="navbar">
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="AskVal.html" id="nav-askval">Ask Your Valentine</a>
+      <a href="Letters.html" id="nav-letters">Love Letters</a>
+      <!-- <a href="login.html" id="nav-login">Login</a> -->
+      <!-- Inactive Links: Poetry, Pick Up Lines, and Quotes -->
+      <a href="Poetry.html" id="nav-poetry" class="inactive">Poetry</a>
+      <a href="Pickup.html" id="nav-pickup" class="inactive">Pick Up Lines</a>
+      <a href="Quotes.html" id="nav-quotes" class="inactive">Quotes</a>
+    </nav>
+    </div>
+
+    <div id="countdown"></div>
+
+    <div class="container">
+      <h1>Create Your Love Letter</h1>
+      <form id="letterForm">
+        <div class="form-group">
+          <label for="letter">Your Love Letter:</label>
+          <textarea id="letter" required></textarea>
+        </div>
+        <button type="submit">Submit Letter</button>
+        <button type="button" id="copyButton">
+          Copy to Ask Your Valentine
+        </button>
+      </form>
+      <div id="letterResponse" class="hidden">
+        <h2>Your Love Letter</h2>
+        <blockquote id="displayLetter"></blockquote>
+      </div>
+    </div>
+
+    <!-- <script>
+      // Load the navigation bar
+      fetch("navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        });
+    </script> -->
+    <script src="main.js"></script>
+    <script>
+      // Ensure the DOM is loaded before attaching event listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        const copyButton = document.getElementById("copyButton");
+        if (copyButton) {
+          copyButton.addEventListener("click", function () {
+            // Get the value from the textarea
+            const letterText = document.getElementById("letter").value;
+            if (!letterText.trim()) {
+              alert("Please enter your love letter first.");
+              return;
+            }
+            // Store the letter text in localStorage under a specific key
+            localStorage.setItem("loveLetter", letterText);
+            // Redirect to AskVal.html
+            window.location.href = "AskVal.html";
+          });
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const storedLetter = localStorage.getItem("loveLetter");
+        if (storedLetter) {
+          // Assuming you have an element to display the letter, e.g., a blockquote with ID "displayLetter"
+          document.getElementById("displayLetter").textContent = storedLetter;
+          // Optionally clear the storage if you only need it once:
+          // localStorage.removeItem("loveLetter");
+        }
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

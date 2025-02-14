@@ -1,0 +1,292 @@
+<!-- Use this as landing page and link pages -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine's Day Theme</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Dancing Script", cursive;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: #d60000;
+      text-decoration: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .content {
+      margin-top: 60px; /* Adjust for the fixed nav bar */
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #d60000;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #ff2644;
+      font-size: 1.2rem;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      width: 20px;
+      height: 20px;
+      background-color: #ff6f91;
+      transform: rotate(-45deg);
+      animation: floatUp 5s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff6f91;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(-45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(-45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Button Styling */
+    .home-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #fc913a;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-button:hover {
+      background-color: #ff6b81;
+    }
+
+    .heart-lock {
+      width: 50px;
+      height: 50px;
+      background-color: #ff6f91;
+      position: relative;
+      transform: rotate(-45deg);
+      margin: 20px auto;
+    }
+
+    .heart-lock::before,
+    .heart-lock::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #ff6f91;
+      border-radius: 50%;
+    }
+
+    .heart-lock::before {
+      top: -25px;
+      left: 0;
+    }
+
+    .heart-lock::after {
+      left: 25px;
+      top: 0;
+    }
+
+    nav a.coming-soon {
+      color: #ccc; /* Inactive links get a "coming-soon" class */
+      pointer-events: none; /* Initially disable pointer events */
+    }
+  </style>
+  <body>
+    <nav>
+      <!-- Always active links -->
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="AskVal.html" id="nav-askval">Ask Your Valentine</a>
+      <a href="Letters.html" id="nav-letters">Love Letters</a>
+      <!-- <a href="login.html" id="nav-login">Login</a> -->
+      <!-- Inactive links until Feb 13, 2025 -->
+      <a href="Poetry.html" id="nav-poetry" class="coming-soon">Poetry</a>
+      <a href="Pickup.html" id="nav-pickup" class="coming-soon"
+        >Pick Up Lines</a
+      >
+      <a href="Quotes.html" id="nav-quotes" class="coming-soon">Quotes</a>
+    </nav>
+    <div class="content">
+      <h1>Welcome to Our Valentine's Day Special</h1>
+      <p>Enjoy our curated love quotes and more!</p>
+      <a href="index.html" id="nextPageLink">
+        <button class="home-button" id="unlockButton" disabled>
+          Go to Home
+        </button>
+      </a>
+      <div id="heartLock" class="heart-lock" style="display: none"></div>
+      <p id="timer"></p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDuration = `${Math.random() * 2 + 3}s`;
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+
+    // Create a floating heart every second
+    setInterval(createHeart, 1000);
+
+    // Timer function to unlock the next page
+    function startTimer(endTime, display) {
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (days > 0) {
+          display.textContent = `${days} day${days > 1 ? "s" : ""} left`;
+        } else {
+          display.textContent = `${hours < 10 ? "0" : ""}${hours}:${
+            minutes < 10 ? "0" : ""
+          }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        }
+
+        if (distance < 0) {
+          clearInterval(interval);
+          display.textContent = "00:00:00";
+          document.querySelector(".home-button").disabled = false;
+          document.getElementById("nextPageLink").href = "index.html";
+          document.getElementById("heartLock").style.display = "none";
+          enableComingSoonLinks();
+        }
+      }, 1000);
+    }
+
+    function enableComingSoonLinks() {
+      const links = document.querySelectorAll("a.coming-soon");
+      links.forEach((link) => {
+        link.classList.remove("coming-soon");
+        link.style.pointerEvents = "auto";
+        link.style.color = "#d60000";
+        link.onclick = null;
+      });
+    }
+
+    function isActivationTime() {
+      const threshold = new Date("February 13, 2025 00:00:00").getTime();
+      return new Date().getTime() >= threshold;
+    }
+
+    window.onload = function () {
+      const activationThreshold = new Date(
+        "February 13, 2025 00:00:00"
+      ).getTime();
+      const display = document.querySelector("#timer");
+      startTimer(activationThreshold, display);
+
+      if (isActivationTime()) {
+        enableComingSoonLinks();
+      } else {
+        const inactiveLinks = document.querySelectorAll("a.coming-soon");
+        inactiveLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            alert("Coming soon, Available on the 13th");
+          });
+        });
+      }
+
+      document
+        .getElementById("unlockButton")
+        .addEventListener("click", function () {
+          this.style.display = "none";
+          document.getElementById("heartLock").style.display = "block";
+        });
+    };
+  </script>
+</html>

@@ -1,0 +1,183 @@
+<!-- Add anonymous function for name and also add name
+ phone number and link to receiver and link  
+ Replace <your-github-username>, <your-repo-name>, and https://your-domain.com with your actual values. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ask Your Valentine</title>
+    <!-- Load Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global Styles with Animated Gradient Background */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        font-family: "Open Sans", sans-serif;
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      /* Navigation Bar */
+      nav {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px 0;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+      }
+      nav a {
+        margin: 0 15px;
+        color: #d60000;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      /* Main Content Container */
+      .container {
+        margin-top: 70px; /* leave room for fixed nav */
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+      }
+      h1 {
+        font-family: "Dancing Script", cursive;
+        color: #d60000;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #ff2644;
+      }
+      .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="tel"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+      .button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px;
+      }
+      .pay-button {
+        background-color: #fc913a;
+        color: white;
+      }
+      .whatsapp-button {
+        background-color: #25d366;
+        color: white;
+      }
+      .button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      /* Optional Timer Display */
+      #timer {
+        font-size: 1.2rem;
+        color: #ff2644;
+        margin-top: 10px;
+      }
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="AskVal.html">Ask Your Valentine</a>
+      <a href="Letters.html">Love Letters</a>
+      <!-- <a href="login.html">Login</a> -->
+    </nav>
+    <div class="container">
+      <h1>Your Love Letter</h1>
+      <blockquote id="letterContent">Loading your letter...</blockquote>
+      <a href="share.html" class="button">View Details</a>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script>
+      // Your Firebase configuration (replace with your actual config)
+      // const firebaseConfig = {
+      //   apiKey: "YOUR_API_KEY",
+      //   authDomain: "your-project-id.firebaseapp.com",
+      //   projectId: "your-project-id",
+      //   storageBucket: "your-project-id.appspot.com",
+      //   messagingSenderId: "SENDER_ID",
+      //   appId: "APP_ID",
+      // };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // Example: Fetch a letter from letters.json and display it.
+      $(document).ready(function () {
+        $.getJSON("letters.json", function (data) {
+          // For example, pick the first letter.
+          const letter = data[0];
+          $("#letterContent").html(
+            `${letter.name} says:<br><br>${letter.message.replace(
+              /\n/g,
+              "<br>"
+            )}`
+          );
+          // Optionally, store details in localStorage for the share page.
+          localStorage.setItem("valentineDetails", JSON.stringify(letter));
+        }).fail(function () {
+          $("#letterContent").text("Unable to load the letter.");
+        });
+      });
+    </script>
+  </body>
+</html>

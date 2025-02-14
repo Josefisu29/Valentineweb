@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Quotes</title>
+    <!-- Google Fonts for Cursive Styles -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Global Styles and Background */
+      body {
+        /* Default fallback; will be overwritten on refresh */
+        font-family: "Georgia", serif;
+        background-color: #fdf0f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Navigation Bar */
+      nav {
+        width: 100%;
+        background-color: #e91e63;
+        padding: 10px 0;
+        text-align: center;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.2em;
+      }
+      nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: #d60000;
+      text-decoration: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+      /* (Optional) Countdown Timer */
+      #countdown {
+        text-align: center;
+        font-size: 1.2em;
+        margin: 20px 0;
+      }
+
+      /* Carousel Container */
+      .carousel-container {
+        position: relative;
+        width: 80%;
+        max-width: 1000px;
+        margin: 50px auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      /* Row Layout for Quotes */
+      .quote-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      /* Quote Card Styles */
+      .quote {
+        flex: 1; /* Equally space the quotes */
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 1.2em;
+        border-radius: 5px;
+        opacity: 1;
+        transition: opacity 1s ease;
+        margin: 5px;
+      }
+
+      /* Responsive Media Queries */
+      @media (max-width: 768px) {
+        .quote {
+          flex: 1 1 calc(50% - 10px);
+          font-size: 1em;
+        }
+      }
+      @media (max-width: 480px) {
+        .quote {
+          flex: 1 1 100%;
+          font-size: 0.9em;
+        }
+        nav a {
+          display: block;
+          margin: 5px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <a href="index.html" id="nav-home">Home</a>
+      <a href="AskVal.html" id="nav-askval">Ask Your Valentine</a>
+      <a href="Letters.html" id="nav-letters">Love Letters</a>
+      <!-- <a href="login.html" id="nav-login">Login</a> -->
+      <!-- Inactive Links: Poetry, Pick Up Lines, and Quotes -->
+      <a href="Poetry.html" id="nav-poetry" class="inactive">Poetry</a>
+      <a href="Pickup.html" id="nav-pickup" class="inactive">Pick Up Lines</a>
+      <a href="Quotes.html" id="nav-quotes" class="inactive">Quotes</a>
+    </nav>
+
+    <!-- Optional Countdown Timer -->
+    <div id="countdown"></div>
+
+    <!-- Carousel Container -->
+    <div class="carousel-container">
+      <div class="quote-row">
+        <!-- Four quote cards will be dynamically inserted here -->
+      </div>
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      // On page refresh, randomly select a cursive font for the body
+      (function setRandomCursiveFont() {
+        const cursiveFonts = [
+          '"Dancing Script", cursive',
+          '"Pacifico", cursive',
+          '"Satisfy", cursive',
+          '"Great Vibes", cursive',
+          '"Caveat", cursive',
+        ];
+        const randomFont =
+          cursiveFonts[Math.floor(Math.random() * cursiveFonts.length)];
+        document.body.style.fontFamily = randomFont;
+      })();
+
+      // Countdown Timer: Count down to Valentine's Day (Feb 14)
+      function startCountdown() {
+        const countdownEl = document.getElementById("countdown");
+        const currentYear = new Date().getFullYear();
+        const targetDate = new Date(
+          `February 14, ${
+            new Date() > new Date("February 14, " + currentYear)
+              ? currentYear + 1
+              : currentYear
+          } 00:00:00`
+        ).getTime();
+
+        function updateCountdown() {
+          const now = new Date().getTime();
+          const diff = targetDate - now;
+          if (diff < 0) {
+            countdownEl.textContent = "Happy Valentine's Day!";
+            clearInterval(interval);
+            return;
+          }
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+          countdownEl.textContent = `Time until Valentine's Day: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+      }
+      startCountdown();
+
+      /* Quotes Array */
+      const quotes = [
+        {
+          text: "Love is composed of a single soul inhabiting two bodies.",
+          author: "Aristotle",
+        },
+        {
+          text: "I love you not only for what you are, but for what I am when I am with you.",
+          author: "Roy Croft",
+        },
+        {
+          text: "The best thing to hold onto in life is each other.",
+          author: "Audrey Hepburn",
+        },
+        {
+          text: "Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.",
+          author: "Lao Tzu",
+        },
+        {
+          text: "I saw that you were perfect, and so I loved you. Then I saw that you were not perfect, and I loved you even more.",
+          author: "Angelita Lim",
+        },
+        {
+          text: "Love is that condition in which the happiness of another person is essential to your own.",
+          author: "Robert A. Heinlein",
+        },
+        {
+          text: "The best love is the kind that awakens the soul and makes us reach for more.",
+          author: "Nicholas Sparks",
+        },
+        {
+          text: "To love and be loved is to feel the sun from both sides.",
+          author: "David Viscott",
+        },
+        {
+          text: "Love is a friendship set to music.",
+          author: "Joseph Campbell",
+        },
+        {
+          text: "We are most alive when we're in love.",
+          author: "John Updike",
+        },
+        {
+          text: "The greatest thing you'll ever learn is just to love and be loved in return.",
+          author: "Eden Ahbez",
+        },
+        {
+          text: "At the touch of love everyone becomes a poet.",
+          author: "Plato",
+        },
+        {
+          text: "Love is a canvas furnished by nature and embroidered by imagination.",
+          author: "Voltaire",
+        },
+        {
+          text: "Love is the only reality, and it is not a mere sentiment.",
+          author: "Rabindranath Tagore",
+        },
+        {
+          text: "Love is the flower you've got to let grow.",
+          author: "John Lennon",
+        },
+        {
+          text: "Love is the magician that pulls man out of his own hat.",
+          author: "Ben Hecht",
+        },
+        {
+          text: "Love is the greatest refreshment in life.",
+          author: "Pablo Picasso",
+        },
+        {
+          text: "Love is the only force capable of transforming an enemy into a friend.",
+          author: "Martin Luther King Jr.",
+        },
+        {
+          text: "Love is not only something you feel, it is something you do.",
+          author: "David Wilkerson",
+        },
+        {
+          text: "Love is the bridge between you and everything.",
+          author: "Rumi",
+        },
+        {
+          text: "Love is the whole thing. We are only pieces.",
+          author: "Rumi",
+        },
+        {
+          text: "Love is the voice under all silences, the hope which has no opposite in fear.",
+          author: "E.E. Cummings",
+        },
+        { text: "Love is the beauty of the soul.", author: "Saint Augustine" },
+        // Additional poems by Goodness Felix-Adebayo
+        {
+          text: `Walked a thousand miles, and a thousand more. Those back and forth strolls weakened my legs, but my heart always feels stronger knowing that you would never leave me the road, to walk alone. 
+There are no crossroads, no roads apart. It’s like we don’t want to go home, we don’t want to rest. I take a breather, and tug at your shirt. It’s because I need you to know that I’m always the best.
+
+Poem by Goodness Felix-Adebayo`,
+          author: "",
+        },
+        {
+          text: `Do you know that Elvis Presley song? The one that says “Wise men says, only fools rush in. But, I can’t help....” 
+You could complete the lyrics. Literally.
+You complete the lyrics with how much you show your love to me. 
+You take my hands, and show me that life is so sweet with you in it.
+You fasten my belt and still take me on a highway,
+You take my hands and my whole life too.
+
+Poem by Goodness Felix-Adebayo`,
+          author: "",
+        },
+        {
+          text: `Your smile holds me accountable.
+Your calls are my reminders, you make the distance work. You make the clock go round, each hour showering me with your gifts. Your virtual hugs, your voice.
+If I was to be a baby all over again, I will be “your babe”.
+And if I was to be a good gaze on a Sunday, I would be in your gaze for the rest of our days.
+
+Poem by Goodness Felix-Adebayo`,
+          author: "",
+        },
+        {
+          text: `There goes my man with so much humor, I need your hype all day despite the rumors.
+Your love for love and passion for work, makes me know that all is fair in love and war.
+
+Short poem by Goodness Felix-Adebayo`,
+          author: "",
+        },
+        {
+          text: `Butterflies has become a colour,
+They have become a feeling.
+Seeing one is seeing you.
+They are beautiful, high-spirited and free. That’s who I am since I’ve been with you.
+
+Short poem by Goodness Felix-Adebayo`,
+          author: "",
+        },
+      ];
+
+      // jQuery object for the row container
+      const $quoteRow = $(".quote-row");
+
+      // Function to add 4 random quotes in a row (ensuring no duplicates in one update)
+      function addNewQuotes() {
+        let usedIndices = [];
+        for (let i = 0; i < 4; i++) {
+          let randomIndex;
+          do {
+            randomIndex = Math.floor(Math.random() * quotes.length);
+          } while (usedIndices.includes(randomIndex));
+          usedIndices.push(randomIndex);
+          const quoteObj = quotes[randomIndex];
+
+          // Create the quote element with its content
+          const $quoteElement = $("<div>")
+            .addClass("quote")
+            .html(
+              `<p>${quoteObj.text.replace(/\n/g, "<br>")}</p>${
+                quoteObj.author ? `<p>- ${quoteObj.author}</p>` : ""
+              }`
+            );
+          $quoteRow.append($quoteElement);
+        }
+      }
+
+      // Function to update the row with a smooth fade-out and fade-in transition
+      function displayRandomQuotes() {
+        $quoteRow.fadeOut(1000, function () {
+          $quoteRow.empty();
+          addNewQuotes();
+          $quoteRow.fadeIn(1000);
+        });
+      }
+
+      // Initial display of 4 quotes in a row
+      addNewQuotes();
+
+      // Update quotes every 5 seconds with smooth transitions
+      setInterval(displayRandomQuotes, 5000);
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
