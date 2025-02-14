@@ -125,14 +125,50 @@
           background-position: 0% 50%;
         }
       }
+      /* Floating Hearts for Ambience (optional) */
+      .heart {
+        position: absolute;
+        bottom: -50px;
+        width: 20px;
+        height: 20px;
+        background-color: #ff6f91;
+        transform: rotate(-45deg);
+        animation: floatUp 5s linear infinite;
+      }
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #ff6f91;
+        border-radius: 50%;
+      }
+      .heart::before {
+        top: -10px;
+        left: 0;
+      }
+      .heart::after {
+        left: 10px;
+        top: 0;
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(-45deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(-45deg);
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
     <nav>
       <a href="index.html">Home</a>
       <a href="AskVal.html">Ask Your Valentine</a>
-      <a href="Letters.html">Love Letters</a>
-      <!-- <a href="login.html">Login</a> -->
+      <a href="share.html">Share Letter</a>
     </nav>
     <div class="container">
       <h1>Ask Your Valentine</h1>
@@ -218,16 +254,7 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      // Auto-fill "Anonymous" if the checkbox is checked.
-      $("#anonymousCheckbox").change(function () {
-        if ($(this).is(":checked")) {
-          $("#name").val("Anonymous").prop("disabled", true);
-        } else {
-          $("#name").val("").prop("disabled", false);
-        }
-      });
-
-      // On page load, retrieve the stored love letter and display it.
+      // On page load, retrieve and display the stored love letter.
       document.addEventListener("DOMContentLoaded", function () {
         const letter = localStorage.getItem("loveLetter");
         if (letter) {
@@ -241,42 +268,32 @@
         }
       });
 
-      // When the "Send via WhatsApp" button is clicked, construct the WhatsApp URL.
+      // Auto-fill "Anonymous" if checkbox is checked.
+      $("#anonymousCheckbox").change(function () {
+        if ($(this).is(":checked")) {
+          $("#name").val("Anonymous").prop("disabled", true);
+        } else {
+          $("#name").val("").prop("disabled", false);
+        }
+      });
+
+      // Handle form submission: store the love letter details in localStorage and redirect to share.html.
       $("#askForm").on("submit", function (e) {
         e.preventDefault();
         const name = $("#name").val().trim() || "Anonymous";
         const phone = $("#phone").val().trim();
         const receiverPhone = $("#receiverPhone").val().trim();
         const letter = $("#letter").val().trim();
-
-        if (!letter || letter.trim() === "") {
-          alert("No love letter found. Please create one first.");
+        if (letter === "") {
+          alert("Please type your love letter.");
           return;
         }
-
-        let fullMessage;
-        if ($("#anonymousCheckbox").is(":checked")) {
-          fullMessage = `${name} says: ${letter}`;
-          // In anonymous mode, use a fixed WhatsApp number.
-          const fixedNumber = "2347000000000"; // Replace with your fixed number.
-          const whatsappUrl = `https://api.whatsapp.com/send?phone=${fixedNumber}&text=${encodeURIComponent(
-            fullMessage
-          )}`;
-          window.open(whatsappUrl, "_blank");
-        } else {
-          if (!phone || !receiverPhone) {
-            alert(
-              "Please enter both your phone number and the receiver's phone number."
-            );
-            return;
-          }
-          fullMessage = `${name} (${phone}) says: ${letter}`;
-          const whatsappUrl = `https://api.whatsapp.com/send?phone=${receiverPhone}&text=${encodeURIComponent(
-            fullMessage
-          )}`;
-          window.open(whatsappUrl, "_blank");
-        }
+        const loveLetterData = { name, phone, receiverPhone, message: letter };
+        localStorage.setItem("loveLetterData", JSON.stringify(loveLetterData));
+        // Redirect to share.html to view and send the letter.
+        window.location.href = "share.html";
       });
     </script>
+    <script src=""></script>
   </body>
 </html>
