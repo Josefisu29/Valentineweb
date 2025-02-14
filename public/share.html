@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You've Received a Love Letter</title>
+    <!-- Load fonts for a romantic look -->
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global Styles with Animated Gradient Background */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: "Open Sans", sans-serif;
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Navigation Bar */
+      /* nav {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px 0;
+        /* text-align: center; */
+      /* position: fixed; */
+      /* top: 0;
+        z-index: 1000;
+        display: flex;
+      }
+      nav a {
+        margin: 0 15px;
+        color: #d60000;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+      /* } */
+
+      /* Main Content Container */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        z-index: 1000;
+      }
+
+      nav a {
+        margin: 0 15px;
+        color: #d60000;
+        text-decoration: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      nav {
+        /* position: fixed; */
+        top: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        /* justify-content: center; */
+        padding: 10px 0;
+        z-index: 1000;
+      }
+
+      /* nav a {
+      margin: 0 15px;
+      color: #d60000;
+      text-decoration: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    } */
+      .container {
+        margin-top: 70px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 90%;
+        text-align: center;
+      }
+      h1 {
+        font-family: "Dancing Script", cursive;
+        color: #d60000;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+      }
+      .letter-info {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #555;
+      }
+      blockquote {
+        font-size: 1.5rem;
+        font-style: italic;
+        color: #333;
+        border-left: 4px solid #ff6b81;
+        padding-left: 15px;
+        margin: 20px 0;
+        line-height: 1.5;
+      }
+      /* WhatsApp Reply Button */
+      .whatsapp-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #25d366;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+      .whatsapp-button:hover {
+        background-color: #1ebe5d;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="AskVal.html">Ask Your Valentine</a>
+      <a href="Letters.html">Love Letters</a>
+    </nav>
+
+    <div class="container">
+      <h1>You've Received a Love Letter!</h1>
+      <div class="letter-info" id="senderInfo"></div>
+      <blockquote id="letterContent">
+        Your love letter will appear here.
+      </blockquote>
+      <a href="#" class="whatsapp-button" id="replyButton">Reply on WhatsApp</a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve the stored letter data from localStorage.
+        const data = localStorage.getItem("loveLetterData");
+        if (data) {
+          const { name, phone, message } = JSON.parse(data);
+          const senderInfoDiv = document.getElementById("senderInfo");
+          if (name.toLowerCase() === "anonymous") {
+            senderInfoDiv.textContent = `From: ${name}`;
+          } else {
+            senderInfoDiv.textContent = `From: ${name} (${phone})`;
+          }
+          document.getElementById("letterContent").innerHTML = message.replace(
+            /\n/g,
+            "<br>"
+          );
+          // Configure the "Reply on WhatsApp" button.
+          let targetNumber;
+          if (name.toLowerCase() === "anonymous") {
+            targetNumber = "2347000000000"; // Fixed reply number for anonymous messages.
+          } else {
+            targetNumber = phone;
+          }
+          const whatsappReplyUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(
+            "Reply to your love letter!"
+          )}`;
+          document
+            .getElementById("replyButton")
+            .setAttribute("href", whatsappReplyUrl);
+        } else {
+          document.getElementById("letterContent").textContent =
+            "No love letter found.";
+        }
+      });
+    </script>
+  </body>
+</html>

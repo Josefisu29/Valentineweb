@@ -19,7 +19,7 @@ const SECRET_KEY = "your_secret_key"; // Change this to a secure key
 const JWT_SECRET = process.env.JWT_SECRET || "YOUR_SECRET_KEY"; // Use environment variable for secret
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/authdb"; // Use environment variable for MongoDB URI
 
-const messagesFile = path.join(__dirname, "messages.json"); // Path for messages file
+const messagesFile = path.join(__dirname, "letters.json"); // Updated to letters.json
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -245,48 +245,49 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-// Helper function to read messages from the JSON file.
-function readMessages(callback) {
+// Helper function to read letters from the JSON file.
+function readLetters(callback) {
   fs.readFile(messagesFile, "utf8", (err, data) => {
     if (err) {
-      // If file doesn't exist, return empty array.
+      // If file does not exist, return an empty array.
       if (err.code === "ENOENT") return callback(null, []);
       return callback(err);
     }
     try {
-      const messages = JSON.parse(data);
-      callback(null, messages);
+      const letters = JSON.parse(data);
+      callback(null, letters);
     } catch (e) {
       callback(e);
     }
   });
 }
 
-// Helper function to write messages to the JSON file.
-function writeMessages(messages, callback) {
-  fs.writeFile(messagesFile, JSON.stringify(messages, null, 2), callback);
+// Helper function to write letters to the JSON file.
+function writeLetters(letters, callback) {
+  fs.writeFile(messagesFile, JSON.stringify(letters, null, 2), callback);
 }
 
-// API endpoint to get all messages
+// API endpoint to get all letters.
 app.get("/api/messages", (req, res) => {
-  readMessages((err, messages) => {
-    if (err) return res.status(500).json({ error: "Error reading messages." });
-    res.json(messages);
+  readLetters((err, letters) => {
+    if (err) return res.status(500).json({ error: "Error reading letters." });
+    res.json(letters);
   });
 });
 
-// API endpoint to post a new message
+// API endpoint to post a new letter.
 app.post("/api/messages", (req, res) => {
-  const newMessage = req.body;
-  newMessage.id = Date.now().toString();
-  newMessage.timestamp = new Date().toISOString();
+  const newLetter = req.body;
+  newLetter.id = Date.now().toString();
+  newLetter.timestamp = new Date().toISOString();
 
-  readMessages((err, messages) => {
-    if (err) return res.status(500).json({ error: "Error reading messages." });
-    messages.push(newMessage);
-    writeMessages(messages, (err) => {
-      if (err) return res.status(500).json({ error: "Error saving message." });
-      res.json(newMessage);
+  readLetters((err, letters) => {
+    if (err) return res.status(500).json({ error: "Error reading letters." });
+    letters.push(newLetter);
+    writeLetters(letters, (err) => {
+      if (err)
+        return res.status(500).json({ error: "Error saving the letter." });
+      res.json(newLetter);
     });
   });
 });
