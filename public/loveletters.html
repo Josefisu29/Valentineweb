@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Your Love Letter</title>
+    <!-- Load Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        font-family: "Open Sans", sans-serif;
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      nav {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px 0;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+      }
+      nav a {
+        margin: 0 15px;
+        color: #d60000;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 70px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+      }
+      h1 {
+        font-family: "Dancing Script", cursive;
+        color: #d60000;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        resize: vertical;
+        min-height: 150px;
+      }
+      .button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #fc913a;
+        color: white;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="LoveLetters.html">Love Letters</a>
+      <a href="AskVal.html">Ask Your Valentine</a>
+    </nav>
+    <div class="container">
+      <h1>Create Your Love Letter</h1>
+      <p>Type your love letter below and click "Copy to Ask Your Valentine".</p>
+      <form id="letterForm">
+        <div class="form-group">
+          <label for="letter">Your Love Letter:</label>
+          <textarea
+            id="letter"
+            placeholder="Type your love letter here..."
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="button">Copy to Ask Your Valentine</button>
+      </form>
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // On form submission, save the letter to localStorage and redirect to AskVal.html.
+      document
+        .getElementById("letterForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const letterText = document.getElementById("letter").value;
+          if (letterText.trim() === "") {
+            alert("Please type your love letter.");
+            return;
+          }
+          localStorage.setItem("loveLetter", letterText);
+          window.location.href = "AskVal.html";
+        });
+    </script>
+  </body>
+</html>

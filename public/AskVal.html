@@ -6,7 +6,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ask Your Valentine</title>
+    <title>Send Your Love Letter</title>
     <!-- Load Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@400;600&display=swap"
@@ -167,11 +167,11 @@
   <body>
     <nav>
       <a href="index.html">Home</a>
+      <a href="LoveLetters.html">Love Letters</a>
       <a href="AskVal.html">Ask Your Valentine</a>
-      <a href="share.html">Share Letter</a>
     </nav>
     <div class="container">
-      <h1>Ask Your Valentine</h1>
+      <h1>Review & Send Your Love Letter</h1>
       <!-- Display the love letter from localStorage -->
       <div class="form-group">
         <label>Your Love Letter:</label>
@@ -229,7 +229,9 @@
             required
           ></textarea>
         </div>
-        <button type="submit" class="button">Submit Letter</button>
+        <button type="button" class="button" id="sendButton">
+          Send via WhatsApp
+        </button>
       </form>
     </div>
 
@@ -277,21 +279,39 @@
         }
       });
 
-      // Handle form submission: store the love letter details in localStorage and redirect to share.html.
-      $("#askForm").on("submit", function (e) {
-        e.preventDefault();
-        const name = $("#name").val().trim() || "Anonymous";
-        const phone = $("#phone").val().trim();
-        const receiverPhone = $("#receiverPhone").val().trim();
-        const letter = $("#letter").val().trim();
-        if (letter === "") {
-          alert("Please type your love letter.");
+      // When the "Send via WhatsApp" button is clicked, build and open the WhatsApp URL.
+      $("#sendButton").click(function () {
+        const letter = localStorage.getItem("loveLetter");
+        if (!letter || letter.trim() === "") {
+          alert("No love letter found. Please create one first.");
           return;
         }
-        const loveLetterData = { name, phone, receiverPhone, message: letter };
-        localStorage.setItem("loveLetterData", JSON.stringify(loveLetterData));
-        // Redirect to share.html to view and send the letter.
-        window.location.href = "share.html";
+        const senderName = $("#name").val().trim() || "Anonymous";
+        const senderNumber = $("#phone").val().trim();
+        const receiverNumber = $("#receiverPhone").val().trim();
+
+        let fullMessage;
+        if ($("#anonymousCheckbox").is(":checked")) {
+          fullMessage = `${senderName} says: ${letter}`;
+          // In anonymous mode, use a fixed WhatsApp number.
+          const fixedNumber = "2347000000000"; // Replace with your fixed number.
+          const whatsappUrl = `https://api.whatsapp.com/send?phone=${fixedNumber}&text=${encodeURIComponent(
+            fullMessage
+          )}`;
+          window.open(whatsappUrl, "_blank");
+        } else {
+          if (!senderNumber || !receiverNumber) {
+            alert(
+              "Please enter both your phone number and the receiver's phone number."
+            );
+            return;
+          }
+          fullMessage = `${senderName} (${senderNumber}) says: ${letter}`;
+          const whatsappUrl = `https://api.whatsapp.com/send?phone=${receiverNumber}&text=${encodeURIComponent(
+            fullMessage
+          )}`;
+          window.open(whatsappUrl, "_blank");
+        }
       });
     </script>
     <script src=""></script>

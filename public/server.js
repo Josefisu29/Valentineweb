@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs"); // Added to handle file operations
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const SECRET_KEY = "your_secret_key"; // Change this to a secure key
 const JWT_SECRET = process.env.JWT_SECRET || "YOUR_SECRET_KEY"; // Use environment variable for secret
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/authdb"; // Use environment variable for MongoDB URI
@@ -161,7 +161,7 @@ app.post("/logout", (req, res) => {
   });
 });
 
-// Serve static files (your HTML, CSS, JS)
+// Serve static files from the "public" folder
 app.use(express.static("public"));
 
 // New code to retrieve love letter details and create a shareable link
@@ -267,7 +267,7 @@ function writeLetters(letters, callback) {
   fs.writeFile(messagesFile, JSON.stringify(letters, null, 2), callback);
 }
 
-// API endpoint to get all letters.
+// API endpoint to get all letters
 app.get("/api/messages", (req, res) => {
   readLetters((err, letters) => {
     if (err) return res.status(500).json({ error: "Error reading letters." });
@@ -275,7 +275,7 @@ app.get("/api/messages", (req, res) => {
   });
 });
 
-// API endpoint to post a new letter.
+// API endpoint to post a new letter
 app.post("/api/messages", (req, res) => {
   const newLetter = req.body;
   newLetter.id = Date.now().toString();
@@ -293,6 +293,4 @@ app.post("/api/messages", (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
